@@ -1,0 +1,36 @@
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install pip3, python3 and Java open-jdk for ubuntu
+    apt:
+     name:
+       - pipsi
+       - python3-pip
+       - openjdk-11-jdk
+     state: latest
+     update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install pip3, python3 and Java open-jdk for centos
+    dnf:
+     name:
+       - python3-pip
+       - python3
+       - java-1.8.0-openjdk
+     state: latest
+     update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - shell: echo 'jhermitano'
+    register: your_username
+  - debug: msg=" Ansible managed node by {{ your_username.stdout  }} "
+
+  - shell: echo 'Johnny Hermitano'
+    register: creatorsName
+  - debug: msg=" I am {{ creatorsName.stdout }},doing the best on this playbook. "
